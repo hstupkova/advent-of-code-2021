@@ -178,10 +178,30 @@
         5788, 5787, 5783, 5791,
       ];
 
-      let increased = 0;
+      // Part 1
+
+      /* let increased = 0;
 
       for (let i = 1; i < data.length; i++) {
         if (data[i] > data[i-1]) {
+          increased++;
+        }
+      }
+
+      console.log(increased); */
+
+      // Part 2
+
+      const slidingWindow = [];
+
+      for (let i = 0; i < data.length - 2; i++) {
+        slidingWindow.push(data[i] + data[i + 1] + data[i + 2]);
+      }
+
+      let increased = 0;
+
+      for (let i = 1; i < slidingWindow.length; i++) {
+        if (slidingWindow[i] > slidingWindow[i-1]) {
           increased++;
         }
       }
