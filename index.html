@@ -1015,7 +1015,8 @@
       ];
 
       // Part 1
-      let position = 0;
+
+      /* let position = 0;
       let depth = 0;
 
       for (let i=0; i < data.length; i++) {
@@ -1035,7 +1036,29 @@
       console.log(position);
       console.log(depth);
 
-      console.log('Answer is: ' + (position * depth));
+      console.log('Answer is: ' + (position * depth)); */
+
+      // Part 2
+      let aim = 0;
+      let position = 0;
+      let depth = 0;
+
+      for (let i = 0; i < data.length; i++) {
+        switch (data[i][0]) {
+          case 'down':
+            aim = aim + data[i][1];
+            break;
+          case 'up':
+            aim = aim - data[i][1];
+            break;
+          case 'forward':
+            position = position + data[i][1];
+            depth = depth + (aim * data[i][1]);
+            break;
+        }
+      }
+
+      console.log('Answer is: ' + position * depth);
     </script>
   </body>
 </html>
