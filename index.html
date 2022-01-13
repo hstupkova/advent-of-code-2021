@@ -6,7 +6,7 @@
   </head>
   <body>
     <h1>Advent of Code 2021</h1>
-    <h2>Day 3</h2>
+    <h2>Day 4</h2>
 
     <p>Look into a console.</p>
 
@@ -725,7 +725,7 @@
 
       // Part 01
 
-      const DUMMY_NUMBERS = [7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21, 24];
+/*       const DUMMY_NUMBERS = [7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21, 24];
 
       const DUMMY_BOARDS = [
         [
@@ -821,6 +821,139 @@
         for (let l = 0; l < 5; l++) { //1 number
           if (controlBoards[indexOfWinningBoard][k][l] === 0) {
             sumOfUncheckedNumbers = sumOfUncheckedNumbers + boards[indexOfWinningBoard][k][l];
+          }
+        }
+      }
+
+      console.log(sumOfUncheckedNumbers);
+
+      console.log('The result is: ' + (sumOfUncheckedNumbers * lastNumber)); */
+
+      // Part 2
+
+      const DUMMY_NUMBERS = [7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21, 24, 22, 18, 13];
+
+      const DUMMY_BOARDS = [
+        [
+          [22, 13, 17, 11, 0],
+          [8, 2, 23, 4, 24],
+          [21, 9, 14, 16, 7],
+          [6, 10, 3, 18, 5],
+          [1, 12, 20, 15, 19],
+        ],
+        [
+          [3, 15, 0, 2, 22],
+          [9, 18, 13, 17, 5],
+          [19, 8, 7, 25, 23],
+          [20, 11, 10, 24, 4],
+          [14, 21, 16, 12, 6],
+        ],
+        [
+          [14, 21, 17, 24, 4],
+          [10, 16, 15, 9, 19],
+          [18, 8, 23, 26, 20],
+          [22, 11, 13, 6, 5],
+          [2, 0, 12, 3, 7],
+        ],
+      ];
+
+      let lastOneWins = false;
+      let lastNumber = null;
+      const controlBoards = [];
+      let indexOfLosingBoard = null;
+      const finishedBoards = [];
+      
+      
+      for (let j = 0; j < boards.length; j++) {
+        controlBoards.push([
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+        ])
+      }
+
+      for (let j = 0; j < boards.length; j++) {
+        finishedBoards.push(0);
+      }
+
+      for (let i = 0; i < numbers.length; i++) {
+        // Checking numbers in boards, marking 1 in controlBoards
+        for (let j = 0; j < boards.length; j++) { // 1 board
+          for (let k = 0; k < 5; k++) { // 1 row
+            for (let l = 0; l < 5; l++) { //1 number
+              if (boards[j][k][l] === numbers[i]) {
+                controlBoards[j][k][l] = 1;
+              }
+            }
+          }
+        }
+
+        // Checking if any row is completed
+        for (let j = 0; j < controlBoards.length; j++) { // 1 board
+          for (let k = 0; k < 5; k++) { // 1 row
+            let amount = 0;
+            for (let l = 0; l < 5; l++) {
+              amount = amount + controlBoards[j][k][l];
+            }
+            if (amount === 5) {
+              finishedBoards[j] = 1;
+              let numberOfFinishedBoards = 0;
+              for (let m = 0; m < finishedBoards.length; m++) {
+                numberOfFinishedBoards = numberOfFinishedBoards + finishedBoards[m];
+              }
+              if (numberOfFinishedBoards === finishedBoards.length) {
+                indexOfLosingBoard = j;
+                lastOneWins = true;
+              }
+              numberOfFinishedBoards = 0;
+            }
+          }
+        }
+
+        // Checking if any column is completed
+        for (let j = 0; j < controlBoards.length; j++) { // 1 board
+          for (let l = 0; l < 5; l++) { // 1 column
+            let amount = 0;
+            for (let k = 0; k < 5; k++) {
+              amount = amount + controlBoards[j][k][l];
+            }
+            if (amount === 5) {
+              finishedBoards[j] = 1;
+              let numberOfFinishedBoards = 0;
+              for (let m = 0; m < finishedBoards.length; m++) {
+                numberOfFinishedBoards = numberOfFinishedBoards + finishedBoards[m];
+              }
+              if (numberOfFinishedBoards === finishedBoards.length) {
+                indexOfLosingBoard = j;
+                lastOneWins = true;
+              }
+              numberOfFinishedBoards = 0;
+            }
+          }
+        }
+
+        console.log(finishedBoards);
+
+        if (lastOneWins) {
+          lastNumber = numbers[i];
+          break;
+        }
+      }
+
+      
+
+      console.log('Losing board: ' + indexOfLosingBoard);
+      console.log(controlBoards[indexOfLosingBoard]);
+      console.log('Last number: ' + lastNumber);
+
+      let sumOfUncheckedNumbers = 0;
+
+      for (let k = 0; k < 5; k++) { // 1 row
+        for (let l = 0; l < 5; l++) { //1 number
+          if (controlBoards[indexOfLosingBoard][k][l] === 0) {
+            sumOfUncheckedNumbers = sumOfUncheckedNumbers + boards[indexOfLosingBoard][k][l];
           }
         }
       }
